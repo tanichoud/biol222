@@ -6,7 +6,16 @@ from tkinter import *
 from PIL import Image, ImageTk
 import _thread
 import time
+import pygame
 
+pygame.mixer.init()
+
+def play():
+    pygame.mixer.music.load("background_music.mp3")
+    pygame.mixer.music.play(loops=-1)
+
+def stop():
+    pygame.mixer.music.stop()
 
 #setting the overall appearance + color scheme of interactive elements
 customtkinter.set_appearance_mode("dark")
@@ -16,10 +25,17 @@ customtkinter.set_default_color_theme("green")
 root = customtkinter.CTk()
 root.geometry("722x826")
 root.title("Hangman Game")
+root.iconbitmap('c:/guis/exe/codemy.ico')
+root.config(cursor="heart")
+
 
 #creating a frame inside the root window
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
+
+#play and pause button frames
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10) 
 
 # retrieve gif from path and display gif on screen
 image_path = "smallkirby.gif"  
@@ -214,8 +230,11 @@ guess_button = customtkinter.CTkButton(root, text="Guess", command=guess_letter,
 reset_button = customtkinter.CTkButton(root, text="Reset", command=reset_game, font=("ComicSansMS", 12),fg_color="#d74894")
 label = customtkinter.CTkLabel(root, text="Biology Hangman", font=("ComicSansMS", 24))
 label.pack(pady=12, padx=10)
-question_label = customtkinter.CTkLabel(root, text="Guess the biology-related word within 6 attempts.", font=("ComicSansMS", 12))
-question_label.pack(pady=12, padx=10)
+play_button = customtkinter.CTkButton(button_frame, text="▷",width=2, command=play,font=("ComicSansMS", 12),fg_color="#d74894")
+play_button.pack(side="left")
+stop_button = customtkinter.CTkButton(button_frame, text="||", width=2,command=stop,font=("ComicSansMS", 12),fg_color="#d74894")
+stop_button.pack(side="left")
+
 
 
 # pack GUI elements
@@ -227,6 +246,7 @@ reset_button.pack()
 canvas.pack()
 guessed_letters_label.pack()
 guessed_letters_display.pack()
+
 
 # initial display
 update_word_display()
