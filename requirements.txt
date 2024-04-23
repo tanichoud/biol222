@@ -1,4 +1,5 @@
-
+#to download dependencies paste: pip install -r requirements.txt 
+#in terminal window of VScode
 
 Pillow==8.0.1
 customtkinter==5.2.2
