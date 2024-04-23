@@ -1,25 +1,26 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import BOTH, ROUND
 import random
 import customtkinter
 from tkinter import *
 from PIL import Image, ImageTk
 import _thread
 import time
-import pygame
+#import pygame
 
-pygame.mixer.init()
+#pygame.mixer.init()
 
-def play():
-    pygame.mixer.music.load("background_music.mp3")
-    pygame.mixer.music.play(loops=-1)
+#def play():
+    #pygame.mixer.music.load("background_music.mp3")
+    #pygame.mixer.music.play(loops=-1)
 
-def stop():
-    pygame.mixer.music.stop()
+#def stop():
+    #pygame.mixer.music.stop()
 
 #setting the overall appearance + color scheme of interactive elements
 customtkinter.set_appearance_mode("dark")
-customtkinter.set_default_color_theme("green")
+#customtkinter.set_default_color_theme("green")
 
 # creating the root window and size of window
 root = customtkinter.CTk()
@@ -34,8 +35,8 @@ frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
 
 #play and pause button frames
-button_frame = tk.Frame(root)
-button_frame.pack(pady=10) 
+#button_frame = tk.Frame(root)
+#button_frame.pack(pady=10) 
 
 # retrieve gif from path and display gif on screen
 image_path = "smallkirby.gif"  
@@ -124,8 +125,34 @@ words = [
     "Oxygen"
 ]
 
+words_lower = [
+   "glucose",
+    "atp",
+    "pyruvate",
+    "nadh",
+    "fadh2",
+    "acetylcoa",
+    "citrate",
+    "isocitrate",
+    "succinyl-coa",
+    "succinate",
+    "fumarate",
+    "malate",
+    "oxaloacetate",
+    "cytoplasm",
+    "mitochondria",
+    "chemiosmosis",
+    "carbon dioxide",
+    "water",
+    "nad+",
+    "fad",
+    "electrons",
+    "ubiquinone",
+    "oxygen"
+]
+
 # initialize variables
-word_to_guess = random.choice(words)
+word_to_guess = random.choice(words_lower)
 guessed_letters = []  # Keeps track of guessed letters
 attempts = 6  # Number of allowed guesses before game ends
 
@@ -156,7 +183,7 @@ def guess_letter():
         else:
             guessed_letters.append(letter)
             update_guessed_letters_display()  # update guessed letters display
-            if letter in word_to_guess:
+            if letter in word_to_guess: #compare letter w word
                 update_word_display()
                 if check_win():
                     messagebox.showinfo("Hangman", "Congratulations! You win!")
@@ -175,7 +202,7 @@ def guess_letter():
 # Reset game
 def reset_game():
     global word_to_guess, guessed_letters, attempts  # modifies global variables
-    word_to_guess = random.choice(words)  # randomly selects from list and assigns to global variable
+    word_to_guess = random.choice(words_lower)  # randomly selects from list and assigns to global variable
     guessed_letters = []  # initializes empty list, clearing previous guesses
     attempts = 6
     update_word_display()  # updates game interface
@@ -224,26 +251,26 @@ attempts_label = tk.Label(root, text="", font=("Arial", 16))
 letter_entry = tk.Entry(root, width=5, font=("Arial", 16))
 #guess_button = tk.Button(root, text="Guess", command=guess_letter, pady=12, padx=10)
 #reset_button = tk.Button(root, text="Reset", command=reset_game)
-canvas = customtkinter.CTkCanvas(root, width=300, height=300)
+canvas = customtkinter.CTkCanvas(root, width=700, height=300)
 canvas.config(bg="pink")
 guess_button = customtkinter.CTkButton(root, text="Guess", command=guess_letter, font=("ComicSansMS", 12),fg_color="#d74894")
 reset_button = customtkinter.CTkButton(root, text="Reset", command=reset_game, font=("ComicSansMS", 12),fg_color="#d74894")
 label = customtkinter.CTkLabel(root, text="Biology Hangman", font=("ComicSansMS", 24))
 label.pack(pady=12, padx=10)
-play_button = customtkinter.CTkButton(button_frame, text="▷",width=2, command=play,font=("ComicSansMS", 12),fg_color="#d74894")
-play_button.pack(side="left")
-stop_button = customtkinter.CTkButton(button_frame, text="||", width=2,command=stop,font=("ComicSansMS", 12),fg_color="#d74894")
-stop_button.pack(side="left")
+#play_button = customtkinter.CTkButton(button_frame, text="▷",width=2, command=play,font=("ComicSansMS", 12),fg_color="#d74894")
+#play_button.pack(side="left")
+#stop_button = customtkinter.CTkButton(button_frame, text="||", width=2,command=stop,font=("ComicSansMS", 12),fg_color="#d74894")
+#stop_button.pack(side="left")
 
 
 
 # pack GUI elements
+canvas.pack()
 word_label.pack()
 attempts_label.pack()
 letter_entry.pack()
 guess_button.pack()
 reset_button.pack()
-canvas.pack()
 guessed_letters_label.pack()
 guessed_letters_display.pack()
 
