@@ -24,9 +24,9 @@ customtkinter.set_appearance_mode("dark")
 
 # creating the root window and size of window
 root = customtkinter.CTk()
-root.geometry("722x826")
+root.geometry("1200x500")
 root.title("Hangman Game")
-root.iconbitmap('c:/guis/exe/codemy.ico')
+#root.iconbitmap('c:/guis/exe/codemy.ico')
 root.config(cursor="heart")
 
 
@@ -99,57 +99,28 @@ gif_player.play()
 
 
 # list of words for the game
-words = [
-    "Glucose",
-    "ATP",
-    "Pyruvate",
-    "NADH",
-    "FADH2",
-    "Acetyl-CoA",
-    "Citrate",
-    "Isocitrate",
-    "Succinyl-CoA",
-    "Succinate",
-    "Fumarate",
-    "Malate",
-    "Oxaloacetate",
-    "Cytoplasm",
-    "Mitochondria",
-    "Chemiosmosis",
-    "Carbon dioxide",
-    "Water",
-    "NAD+",
-    "FAD",
-    "Electrons",
-    "Ubiquinone",
-    "Oxygen"
-]
-
 words_lower = [
-   "glucose",
+    "glucose",
     "atp",
-    "pyruvate",
-    "nadh",
-    "fadh2",
-    "acetylcoa",
-    "citrate",
-    "isocitrate",
-    "succinyl-coa",
-    "succinate",
-    "fumarate",
-    "malate",
-    "oxaloacetate",
     "cytoplasm",
     "mitochondria",
-    "chemiosmosis",
     "carbon dioxide",
     "water",
-    "nad+",
-    "fad",
     "electrons",
-    "ubiquinone",
     "oxygen"
 ]
+
+words_defs = {
+    "glucose": "sugar produced during photosynthesis",
+    "atp": "energy",
+    "cytoplasm": "extracellular and intracelluar",
+    "mitochondria": "powerhouse of the cell",
+    "carbon dioxide": "gas we breathe out",
+    "water":"wada",
+    "electrons": "negatively charged particles",
+    "oxygen": "gas we breathe in"
+}
+
 
 # initialize variables
 word_to_guess = random.choice(words_lower)
@@ -201,7 +172,7 @@ def guess_letter():
 
 # Reset game
 def reset_game():
-    global word_to_guess, guessed_letters, attempts  # modifies global variables
+    global word_to_guess, guessed_letters, attempts, word_current  # modifies global variables
     word_to_guess = random.choice(words_lower)  # randomly selects from list and assigns to global variable
     guessed_letters = []  # initializes empty list, clearing previous guesses
     attempts = 6
@@ -221,6 +192,17 @@ def update_word_display():
             display_word += "__"
         display_word += " "
     word_label.config(text=display_word)
+    if word_to_guess.lower() in words_defs:
+        hint_display.config(text=words_defs[word_to_guess.lower()])
+    else:
+        hint_display.config(text = "test")
+
+def show_definition():
+    word_current = word_to_guess.lower()
+    if word_current in words_defs:
+        hint_display.config(text=words_defs[word_current])
+    else:
+        hint_display.config(text="test")
 
 # function to update attempts display
 def update_attempts_display():
@@ -251,10 +233,15 @@ attempts_label = tk.Label(root, text="", font=("Arial", 16))
 letter_entry = tk.Entry(root, width=5, font=("Arial", 16))
 #guess_button = tk.Button(root, text="Guess", command=guess_letter, pady=12, padx=10)
 #reset_button = tk.Button(root, text="Reset", command=reset_game)
+#hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
+hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
 canvas = customtkinter.CTkCanvas(root, width=700, height=300)
-canvas.config(bg="pink")
+canvas.config(bg="pink") 
 guess_button = customtkinter.CTkButton(root, text="Guess", command=guess_letter, font=("ComicSansMS", 12),fg_color="#d74894")
 reset_button = customtkinter.CTkButton(root, text="Reset", command=reset_game, font=("ComicSansMS", 12),fg_color="#d74894")
+#hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
+#hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
+#hint_button = tk.Button(root, text = "get hint", command = show_definition)
 label = customtkinter.CTkLabel(root, text="Biology Hangman", font=("ComicSansMS", 24))
 label.pack(pady=12, padx=10)
 #play_button = customtkinter.CTkButton(button_frame, text="▷",width=2, command=play,font=("ComicSansMS", 12),fg_color="#d74894")
@@ -265,6 +252,8 @@ label.pack(pady=12, padx=10)
 
 
 # pack GUI elements
+hint_display.pack()
+#hint_button.pack()
 canvas.pack()
 word_label.pack()
 attempts_label.pack()
@@ -273,6 +262,8 @@ guess_button.pack()
 reset_button.pack()
 guessed_letters_label.pack()
 guessed_letters_display.pack()
+
+
 
 
 # initial display
