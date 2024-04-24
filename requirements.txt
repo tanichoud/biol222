@@ -1,6 +1,11 @@
-#to download dependencies paste: pip install -r requirements.txt 
-#in terminal window of VScode
+#first go to terminal/powercell command line program and change directory
+#to where this file is saved (ex: /Users/tanishachoudhury/Downloads/tinartssgithub/biol222)
+#right click on the file to get info and it should have the path
+#once you're in the directory, copy and paste:
+#pip install -r requirements.txt 
+#should install all dependencies needed to run the program
+#make sure you have python 3 downloaded
+#if python 2 downloaded: pip 3 install -r requirements.txt 
 
-Pillow==8.0.1
-customtkinter==5.2.2
-
+Pillow
+customtkinter
