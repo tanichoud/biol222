@@ -4,10 +4,15 @@ from tkinter import BOTH, ROUND
 import random
 import customtkinter
 from tkinter import *
+from tkinter import messagebox 
 from PIL import Image, ImageTk
 import _thread
 import time
-#import pygame
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  
+NavigationToolbar2Tk) 
 
 #pygame.mixer.init()
 
@@ -25,9 +30,10 @@ customtkinter.set_appearance_mode("dark")
 # creating the root window and size of window
 root = customtkinter.CTk()
 root.geometry("1200x500")
-root.title("Hangman Game")
+root.title("Biology Hangman")
 #root.iconbitmap('c:/guis/exe/codemy.ico')
 root.config(cursor="heart")
+
 
 
 #creating a frame inside the root window
@@ -104,7 +110,7 @@ words_lower = [
     "atp",
     "cytoplasm",
     "mitochondria",
-    "carbon dioxide",
+    "carbondioxide",
     "water",
     "electrons",
     "oxygen"
@@ -115,7 +121,7 @@ words_defs = {
     "atp": "energy",
     "cytoplasm": "extracellular and intracelluar",
     "mitochondria": "powerhouse of the cell",
-    "carbon dioxide": "gas we breathe out",
+    "carbondioxide": "gas we breathe out",
     "water":"wada",
     "electrons": "negatively charged particles",
     "oxygen": "gas we breathe in"
@@ -126,6 +132,8 @@ words_defs = {
 word_to_guess = random.choice(words_lower)
 guessed_letters = []  # Keeps track of guessed letters
 attempts = 6  # Number of allowed guesses before game ends
+w = 0
+l = 0
 
 
 # function to check if the game is over
@@ -204,6 +212,24 @@ def show_definition():
     else:
         hint_display.config(text="test")
 
+def graph():
+    fig = Figure(figsize = (5, 5), dpi = 100)
+    y = [i**2 for i in range(101)] 
+    plot1 = fig.add_subplot(111) 
+    plot1.plot(y)
+    canvas = FigureCanvasTkAgg(fig, master = window)   
+    canvas.draw() 
+    # placing the canvas on the Tkinter window 
+    canvas.get_tk_widget().pack() 
+    # creating the Matplotlib toolbar 
+    toolbar = NavigationToolbar2Tk(canvas, window) 
+    toolbar.update() 
+    # placing the toolbar on the Tkinter window 
+    canvas.get_tk_widget().pack() 
+
+def show_stats():
+    tk.messagebox.showinfo("Game Summary",  "Wins and losses this session") 
+
 # function to update attempts display
 def update_attempts_display():
     attempts_label.config(text=f"Attempts left: {attempts}", font=("ComicSansMS", 12))
@@ -248,7 +274,7 @@ label.pack(pady=12, padx=10)
 #play_button.pack(side="left")
 #stop_button = customtkinter.CTkButton(button_frame, text="||", width=2,command=stop,font=("ComicSansMS", 12),fg_color="#d74894")
 #stop_button.pack(side="left")
-
+stats_button = customtkinter.CTkButton(root, text="Game stats", command=show_stats)
 
 
 # pack GUI elements
@@ -262,8 +288,7 @@ guess_button.pack()
 reset_button.pack()
 guessed_letters_label.pack()
 guessed_letters_display.pack()
-
-
+stats_button.pack()
 
 
 # initial display

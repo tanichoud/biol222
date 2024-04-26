@@ -9,3 +9,5 @@
 
 Pillow
 customtkinter
+numpy
+matplotlib
