@@ -29,16 +29,15 @@ customtkinter.set_appearance_mode("dark")
 
 # creating the root window and size of window
 root = customtkinter.CTk()
-root.geometry("1200x500")
+root.geometry("500x900")
 root.title("Biology Hangman")
 #root.iconbitmap('c:/guis/exe/codemy.ico')
 root.config(cursor="heart")
 
 
-
 #creating a frame inside the root window
 frame = customtkinter.CTkFrame(master=root)
-frame.pack(pady=20, padx=60, fill="both", expand=True)
+frame.pack(pady=10, padx=10, fill="both", expand=True)
 
 #play and pause button frames
 #button_frame = tk.Frame(root)
@@ -50,9 +49,8 @@ img = Image.open(image_path)
 img = img.resize((140, 140))  
 photo = ImageTk.PhotoImage(img)
 
-image_label = customtkinter.CTkLabel(master=frame, image=photo, text="")  # Set the text color
+image_label = customtkinter.CTkLabel(master=frame, image=photo, text="")  
 image_label.image = photo  # Reference
-image_label.pack(pady=12, padx=10)
 
 #using code snippet of a function to allow gif to play inside ctkinter
 
@@ -152,8 +150,52 @@ def check_lost():
 guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 12))
 guessed_letters_display = tk.Label(root, text="", font=("ComicSansMS", 12))
 
+
+def show_invalid_input_popup():
+    # new toplevel window for the custom popup
+    popup_window = tk.Toplevel(root)
+    popup_window.title("Invalid Input")
+    popup_window.geometry("300x300")
+    popup_window.resizable(False, False)
+
+    error_frame = customtkinter.CTkFrame(master=popup_window)  # Use popup_window as master
+    error_frame.pack(pady=10, padx=10, fill="both", expand=True)
+
+    error_image_path = "madkirby.png.png"  
+    error_img = Image.open(error_image_path)
+    error_img = error_img.resize((140, 140))  
+    error_photo = ImageTk.PhotoImage(error_img)
+
+    error_image_label = customtkinter.CTkLabel(master=error_frame, image=error_photo, text="")  
+    error_image_label.image = error_photo  # Reference
+    error_image_label.pack()
+
+    # custom message
+    message = "Please enter a single letter!"
+
+    #  label to display the message
+    message_label = tk.Label(popup_window, text=message, font=("Comic Sans", 24))
+    message_label.pack()
+    # close button
+    close_button = customtkinter.CTkButton(popup_window, text="Close", fg_color="#d74894", command=popup_window.destroy)
+    close_button.pack(pady=10)
+
+    # centering the pop up
+    popup_window.update_idletasks()
+    width = popup_window.winfo_width()
+    height = popup_window.info_height()
+    x = (popup_window.winfo_screenwidth() // 2) - (width // 2)
+    y = (popup_window.winfo_screenheight() // 2) - (height // 2)
+    popup_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
+    # display pop up
+    popup_window.mainloop()
+    
+
+root.bind('<Return>', lambda event: guess_letter())
+
 # checks if letters match word
-def guess_letter():
+def guess_letter(event=None):
     global attempts  # access and modify variable
     letter = letter_entry.get().lower()  # convert to lowercase and store in variable
     if letter.isalpha() and len(letter) == 1:  # check if valid single character
@@ -176,7 +218,7 @@ def guess_letter():
                     reset_game()
         letter_entry.delete(0, tk.END)  # clears the input field
     else:
-        messagebox.showinfo("Hangman", "Please enter a single letter.")  # if not a valid letter
+       show_invalid_input_popup()
 
 # Reset game
 def reset_game():
@@ -261,7 +303,7 @@ letter_entry = tk.Entry(root, width=5, font=("Arial", 16))
 #reset_button = tk.Button(root, text="Reset", command=reset_game)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
 hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
-canvas = customtkinter.CTkCanvas(root, width=700, height=300)
+canvas = customtkinter.CTkCanvas(root, width=300, height=300)
 canvas.config(bg="pink") 
 guess_button = customtkinter.CTkButton(root, text="Guess", command=guess_letter, font=("ComicSansMS", 12),fg_color="#d74894")
 reset_button = customtkinter.CTkButton(root, text="Reset", command=reset_game, font=("ComicSansMS", 12),fg_color="#d74894")
@@ -274,10 +316,12 @@ label.pack(pady=12, padx=10)
 #play_button.pack(side="left")
 #stop_button = customtkinter.CTkButton(button_frame, text="||", width=2,command=stop,font=("ComicSansMS", 12),fg_color="#d74894")
 #stop_button.pack(side="left")
-stats_button = customtkinter.CTkButton(root, text="Game stats", command=show_stats)
+stats_button = customtkinter.CTkButton(root, text="Game stats", command=show_stats,fg_color="#d74894")
 
 
 # pack GUI elements
+stats_button.pack()
+image_label.pack()
 hint_display.pack()
 #hint_button.pack()
 canvas.pack()
@@ -288,8 +332,6 @@ guess_button.pack()
 reset_button.pack()
 guessed_letters_label.pack()
 guessed_letters_display.pack()
-stats_button.pack()
-
 
 # initial display
 update_word_display()
