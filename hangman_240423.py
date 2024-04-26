@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure 
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  
 NavigationToolbar2Tk) 
+from tkinter import Label
+from PIL import Image, ImageSequence
 
 #pygame.mixer.init()
 
@@ -55,36 +57,40 @@ image_label.image = photo  # Reference
 #using code snippet of a function to allow gif to play inside ctkinter
 
 class gifplay:
-    """
-    Usage: mygif=gifplay(<<tkinter.label Objec>>,<<GIF path>>,<<frame_rate(in ms)>>)
-    example:
-    gif=GIF.gifplay(self.model2,'./res/neural.gif',0.1)
-    gif.play()
-    This will play gif infinitely
-    """
+
     def __init__(self, label, giffile, delay):
         self.frame = []
         i = 0
-        while 1:
+        while True:
             try:
-                image = PhotoImage(file=giffile, format="gif -index "+str(i))
+                image = PhotoImage(file=giffile, format="gif -index " + str(i))
                 self.frame.append(image)
-                i = i + 1
+                i += 1
             except:
                 break
         print(i)
         self.totalFrames = i - 1
         self.delay = delay
         self.labelspace = label
-        self.labelspace.image = self.frame[0]
-        desired_width = 100
-        desired_height = 100
+        self.labelspace.configure(image=self.frame[0])  # Update the label image initially
+
+    def play(self):
+       
+        _thread.start_new_thread(self.infinite, ())
+
+    def infinite(self):
+        """
+        Plays the GIF infinitely.
+        """
+        i = 0
+        while True:
+            self.labelspace.configure(image=self.frame[i])
+            i = (i + 1) % self.totalFrames
+            time.sleep(self.delay)
 
 
     def play(self):
-        """
-        plays the gif
-        """
+      
         _thread.start_new_thread(self.infinite,())
 
     def infinite(self):
@@ -100,6 +106,8 @@ gif_path = "smallkirby.gif"
 # tkinter main loop for gif
 gif_player = gifplay(image_label, gif_path, 0.1)
 gif_player.play()
+
+
 
 
 # list of words for the game
@@ -150,6 +158,7 @@ def check_lost():
 guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 12))
 guessed_letters_display = tk.Label(root, text="", font=("ComicSansMS", 12))
 
+# error pop up
 
 def show_invalid_input_popup():
     # new toplevel window for the custom popup
@@ -192,6 +201,55 @@ def show_invalid_input_popup():
     popup_window.mainloop()
     
 
+def win_popup():
+    # new toplevel window for the custom popup
+    win_popup_window = tk.Toplevel(root)
+    win_popup_window.title("You win!")
+    win_popup_window.geometry("300x300")
+    #win_popup_window.resizable(False, False)
+
+    # custom message
+    message = "You win!"
+
+    #creating a frame inside the pop up window
+    win_frame = customtkinter.CTkFrame(master=win_popup_window)
+    win_frame.pack(pady=10, padx=10, fill="both", expand=True)
+
+    # retrieve gif from path and display gif on screen
+    win_gif_path = "win_kirby.gif"
+    win_img = Image.open(win_gif_path)
+    win_img = win_img.resize((140, 140))  
+    win_photo = ImageTk.PhotoImage(win_img)
+
+    win_image_label = customtkinter.CTkLabel(master=win_frame, image=win_photo, text="")  
+    win_image_label.image = win_photo  # Reference
+    win_image_label.pack()
+
+    # tkinter loop for you win gif
+    win_gif_player = gifplay(win_image_label, win_gif_path, 0.1)
+    win_gif_player.play()
+
+    #  label to display the message
+    message_label = tk.Label(win_popup_window, text=message, font=("Comic Sans", 24))
+    message_label.pack()
+    # close button
+    close_button = customtkinter.CTkButton(win_popup_window, text="Close", fg_color="#d74894", command=win_popup_window.destroy)
+    close_button.pack(pady=10)
+
+    # centering the pop up
+    win_popup_window.update_idletasks()
+    width = win_popup_window.winfo_width()
+    height = win_popup_window.winfo_height()  # Update this line
+    x = (win_popup_window.winfo_screenwidth() // 2) - (width // 2)
+    y = (win_popup_window.winfo_screenheight() // 2) - (height // 2)
+    win_popup_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
+    # display pop up
+    win_popup_window.mainloop()
+
+
+
+
 root.bind('<Return>', lambda event: guess_letter())
 
 # checks if letters match word
@@ -207,7 +265,7 @@ def guess_letter(event=None):
             if letter in word_to_guess: #compare letter w word
                 update_word_display()
                 if check_win():
-                    messagebox.showinfo("Hangman", "Congratulations! You win!")
+                    win_popup()
                     reset_game()
             else:
                 attempts -= 1
@@ -219,6 +277,8 @@ def guess_letter(event=None):
         letter_entry.delete(0, tk.END)  # clears the input field
     else:
        show_invalid_input_popup()
+
+
 
 # Reset game
 def reset_game():
