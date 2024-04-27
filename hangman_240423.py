@@ -39,7 +39,7 @@ root.config(cursor="heart")
 
 #creating a frame inside the root window
 frame = customtkinter.CTkFrame(master=root)
-frame.pack(pady=10, padx=10, fill="both", expand=True)
+frame.pack(pady=0, padx=0, fill="both", expand=False)
 
 #play and pause button frames
 #button_frame = tk.Frame(root)
@@ -48,7 +48,7 @@ frame.pack(pady=10, padx=10, fill="both", expand=True)
 # retrieve gif from path and display gif on screen
 image_path = "smallkirby.gif"  
 img = Image.open(image_path)
-img = img.resize((140, 140))  
+img = img.resize((300, 300))  
 photo = ImageTk.PhotoImage(img)
 
 image_label = customtkinter.CTkLabel(master=frame, image=photo, text="")  
@@ -422,17 +422,17 @@ reset_button = customtkinter.CTkButton(root, text="RESET", command=reset_game, f
 #hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
 #hint_button = tk.Button(root, text = "get hint", command = show_definition)
-label = customtkinter.CTkLabel(root, text="Biology Hangman", font=("ComicSansMS", 24))
+label = customtkinter.CTkLabel(root, text="BioBlanks", font=("ComicSansMS", 30))
 label.pack(pady=12, padx=10)
 #play_button = customtkinter.CTkButton(button_frame, text="▷",width=2, command=play,font=("ComicSansMS", 12),fg_color="#d74894")
 #play_button.pack(side="left")
 #stop_button = customtkinter.CTkButton(button_frame, text="||", width=2,command=stop,font=("ComicSansMS", 12),fg_color="#d74894")
 #stop_button.pack(side="left")
-stats_button = customtkinter.CTkButton(root, text="Game stats", command=show_stats,fg_color="#d74894")
+stats_button = customtkinter.CTkButton(root, text="Game stats", command=show_stats,fg_color="#5e1147")
 
 
 # pack GUI elements
-stats_button.pack()
+
 image_label.pack()
 hint_display.pack()
 #hint_button.pack()
@@ -443,7 +443,8 @@ letter_entry.pack()
 guessed_letters_label.pack()
 guessed_letters_display.pack()
 guess_button.pack()
-reset_button.pack()
+reset_button.pack(pady=12, padx=10)
+stats_button.pack(pady=12, padx=10)
 
 # initial display
 update_word_display()
