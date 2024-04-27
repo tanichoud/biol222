@@ -155,8 +155,8 @@ def check_lost():
     return attempts == 0
 
 # create a label to display guessed letters
-guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 12))
-guessed_letters_display = tk.Label(root, text="", font=("ComicSansMS", 12))
+guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 16))
+guessed_letters_display = tk.Label(root, text="", font=("ComicSansMS", 16))
 
 # error pop up
 
@@ -200,13 +200,59 @@ def show_invalid_input_popup():
     # display pop up
     popup_window.mainloop()
     
+# you already guessed this letter
+
+# error pop up
+
+def guessed_popup():
+    # new toplevel window for the custom popup
+    popup_window = tk.Toplevel(root)
+    popup_window.title("Invalid Input")
+    popup_window.geometry("300x300")
+    popup_window.resizable(False, False)
+
+    error_frame = customtkinter.CTkFrame(master=popup_window)  # Use popup_window as master
+    error_frame.pack(pady=10, padx=10, fill="both", expand=True)
+
+    error_image_path = "madkirby.png.png"  
+    error_img = Image.open(error_image_path)
+    error_img = error_img.resize((140, 140))  
+    error_photo = ImageTk.PhotoImage(error_img)
+
+    error_image_label = customtkinter.CTkLabel(master=error_frame, image=error_photo, text="")  
+    error_image_label.image = error_photo  # Reference
+    error_image_label.pack()
+
+    # custom message
+    message = "You already guessed this letter!"
+
+    #  label to display the message
+    message_label = tk.Label(popup_window, text=message, font=("Comic Sans", 20))
+    message_label.pack()
+    # close button
+    close_button = customtkinter.CTkButton(popup_window, text="Close", fg_color="#d74894", command=popup_window.destroy)
+    close_button.pack(pady=10)
+
+    # centering the pop up
+    popup_window.update_idletasks()
+    width = popup_window.winfo_width()
+    height = popup_window.info_height()
+    x = (popup_window.winfo_screenwidth() // 2) - (width // 2)
+    y = (popup_window.winfo_screenheight() // 2) - (height // 2)
+    popup_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
+    # display pop up
+    popup_window.mainloop()
+    
+
+
 
 def win_popup():
     # new toplevel window for the custom popup
     win_popup_window = tk.Toplevel(root)
     win_popup_window.title("You win!")
     win_popup_window.geometry("300x300")
-    #win_popup_window.resizable(False, False)
+    win_popup_window.resizable(False, False)
 
     # custom message
     message = "You win!"
@@ -258,15 +304,15 @@ def guess_letter(event=None):
     letter = letter_entry.get().lower()  # convert to lowercase and store in variable
     if letter.isalpha() and len(letter) == 1:  # check if valid single character
         if letter in guessed_letters:  # if already guessed
-            messagebox.showinfo("Hangman", "You already guessed this letter.")
+             guessed_popup()
         else:
             guessed_letters.append(letter)
             update_guessed_letters_display()  # update guessed letters display
             if letter in word_to_guess: #compare letter w word
                 update_word_display()
                 if check_win():
-                    win_popup()
                     reset_game()
+                    win_popup()
             else:
                 attempts -= 1
                 update_attempts_display()
@@ -334,7 +380,7 @@ def show_stats():
 
 # function to update attempts display
 def update_attempts_display():
-    attempts_label.config(text=f"Attempts left: {attempts}", font=("ComicSansMS", 12))
+    attempts_label.config(text=f"Attempts left: {attempts}", font=("ComicSansMS", 16))
 
 # function to update guessed letters display
 def update_guessed_letters_display():
@@ -356,17 +402,23 @@ def draw_hangman():
         canvas.create_line(150, 225, 175, 250, width=4, tags="hangman")  # Right leg
 
 # create GUI elements
-word_label = tk.Label(root, text="", font=("Arial", 24))
-attempts_label = tk.Label(root, text="", font=("Arial", 16))
-letter_entry = tk.Entry(root, width=5, font=("Arial", 16))
+word_label = tk.Label(root, text="", font=("Comic Sans", 24))
+attempts_label = tk.Label(root, text="", font=("Comic Sans", 16))
+letter_entry = tk.Entry(root, width=5, font=("Comic Sans", 16))
 #guess_button = tk.Button(root, text="Guess", command=guess_letter, pady=12, padx=10)
 #reset_button = tk.Button(root, text="Reset", command=reset_game)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
-hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
-canvas = customtkinter.CTkCanvas(root, width=300, height=300)
+hint_display = tk.Label(root, text = "", font = ("Comic Sans", 24), wraplength=700)
+canvas = customtkinter.CTkCanvas(root, width=250, height=260)
+canvas.create_line(50, 250, 250, 250, width=4)# Base line
+canvas.create_line(200, 250, 200, 100, width=4)# Post
+canvas.create_line(100, 100, 200, 100, width=4)# Beam
+canvas. create_line(150, 100, 150, 120, width=4)# Beam
 canvas.config(bg="pink") 
-guess_button = customtkinter.CTkButton(root, text="Guess", command=guess_letter, font=("ComicSansMS", 12),fg_color="#d74894")
-reset_button = customtkinter.CTkButton(root, text="Reset", command=reset_game, font=("ComicSansMS", 12),fg_color="#d74894")
+
+
+guess_button = customtkinter.CTkButton(root, text="GUESS", command=guess_letter, font=("ComicSansMS", 16),fg_color="#d74894")
+reset_button = customtkinter.CTkButton(root, text="RESET", command=reset_game, font=("ComicSansMS", 16),fg_color="#d74894")
 #hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
 #hint_button = tk.Button(root, text = "get hint", command = show_definition)
@@ -388,10 +440,10 @@ canvas.pack()
 word_label.pack()
 attempts_label.pack()
 letter_entry.pack()
-guess_button.pack()
-reset_button.pack()
 guessed_letters_label.pack()
 guessed_letters_display.pack()
+guess_button.pack()
+reset_button.pack()
 
 # initial display
 update_word_display()
