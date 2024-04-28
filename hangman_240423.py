@@ -67,7 +67,6 @@ class gifplay:
         self.labelspace.configure(image=self.frame[0])  # Update the label image initially
 
     def play(self):
-       
         _thread.start_new_thread(self.infinite, ())
 
     def infinite(self):
@@ -82,7 +81,6 @@ class gifplay:
 
 
     def play(self):
-      
         _thread.start_new_thread(self.infinite,())
 
     def infinite(self):
@@ -301,7 +299,7 @@ def guess_letter(event=None):
     letter = letter_entry.get().lower()  # convert to lowercase and store in variable
     if letter.isalpha() and len(letter) == 1:  # check if valid single character
         if letter in guessed_letters:  # if already guessed
-             guessed_popup()
+            guessed_popup()
         else:
             guessed_letters.append(letter)
             update_guessed_letters_display()  # update guessed letters display
@@ -319,8 +317,8 @@ def guess_letter(event=None):
                 draw_hangman()
                 if check_lost():
                     messagebox.showinfo("Hangman", "You lose! The word was: " + word_to_guess)
-                    #tats['losses'] += 1
-                    #stats['streak'] = 0
+                    #stats['losses'] += 1
+                    stats['streak'] = 0
                     reset_game()
         letter_entry.delete(0, tk.END)  # clears the input field
     else:
@@ -363,7 +361,7 @@ def show_definition():
         hint_display.config(text="test")
 
 #make df for wins and losses
-df = pd.DataFrame(list(stats.items()), columns=['label', 'value'])
+df = pd.DataFrame(list(stats.items()), columns=['labels', 'value'])
 sdf = df[["value"]]
 
 def show_stats():
@@ -433,7 +431,7 @@ reset_button = customtkinter.CTkButton(root, text="RESET", command=reset_game, f
 #hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
 #hint_button = tk.Button(root, text = "get hint", command = show_definition)
-label = customtkinter.CTkLabel(root, text="BioBlanks", font=("ComicSansMS", 30))
+label = tk.Label(root, text="BioBlanks", font=("ComicSansMS", 30))
 label.pack(pady=12, padx=10)
 #play_button = customtkinter.CTkButton(button_frame, text="▷",width=2, command=play,font=("ComicSansMS", 12),fg_color="#d74894")
 #play_button.pack(side="left")
