@@ -9,10 +9,12 @@ from PIL import Image, ImageTk
 import _thread
 import time
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure 
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  
-NavigationToolbar2Tk) 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
+from matplotlib.backend_bases import key_press_handler
+
 
 #pygame.mixer.init()
 
@@ -135,6 +137,11 @@ attempts = 6  # Number of allowed guesses before game ends
 w = 0
 l = 0
 
+stats = {
+    'wins':5, 
+    'losess':5, 
+    'streak':2, 
+    }
 
 # function to check if the game is over
 def is_game_over():
@@ -166,6 +173,8 @@ def guess_letter():
                 update_word_display()
                 if check_win():
                     messagebox.showinfo("Hangman", "Congratulations! You win!")
+                    stats['wins'] += 1
+                    stats['streak'] += 1
                     reset_game()
             else:
                 attempts -= 1
@@ -173,6 +182,8 @@ def guess_letter():
                 draw_hangman()
                 if check_lost():
                     messagebox.showinfo("Hangman", "You lose! The word was: " + word_to_guess)
+                    #tats['losses'] += 1
+                    #stats['streak'] = 0
                     reset_game()
         letter_entry.delete(0, tk.END)  # clears the input field
     else:
@@ -212,23 +223,32 @@ def show_definition():
     else:
         hint_display.config(text="test")
 
-def graph():
-    fig = Figure(figsize = (5, 5), dpi = 100)
-    y = [i**2 for i in range(101)] 
-    plot1 = fig.add_subplot(111) 
-    plot1.plot(y)
-    canvas = FigureCanvasTkAgg(fig, master = window)   
-    canvas.draw() 
-    # placing the canvas on the Tkinter window 
-    canvas.get_tk_widget().pack() 
-    # creating the Matplotlib toolbar 
-    toolbar = NavigationToolbar2Tk(canvas, window) 
-    toolbar.update() 
-    # placing the toolbar on the Tkinter window 
-    canvas.get_tk_widget().pack() 
+#make df for wins and losses
+df = pd.DataFrame(list(stats.items()), columns=['label', 'value'])
+sdf = df[["value"]]
 
 def show_stats():
-    tk.messagebox.showinfo("Game Summary",  "Wins and losses this session") 
+    popup = tk.Tk()
+    popup.wm_title("Game Summary")
+    popup.geometry("520x520+300+200")
+
+    label = tk.Label(popup, text="Game Summary", font='Arial')
+    label.pack(side="top", fill="x", pady=10)
+
+    wins_loss = tk.Label(popup, text='')
+    wins_loss['text'] = '\n'.join('{} {}'.format(k, d) for k, d in stats.items()) 
+    wins_loss.pack(side="top", fill="x", pady=10)
+
+    B1 = tk.Button(popup, text="Okay", command = popup.destroy)
+    B1.pack()
+
+    figure = plt.Figure(figsize=(6, 5), dpi=100)
+    ax = figure.add_subplot(111)
+    chart_type = FigureCanvasTkAgg(figure, popup)
+    chart_type.get_tk_widget().pack()
+    plot = sdf.plot.pie( subplots=True, figsize=(11, 6))
+    
+    popup.mainloop()
 
 # function to update attempts display
 def update_attempts_display():
