@@ -477,8 +477,8 @@ reset_button = customtkinter.CTkButton(root, text="RESET", command=reset_game, f
 #hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
 #hint_button = tk.Button(root, text = "get hint", command = show_definition)
-label = tk.Label(root, text="BioBlanks", font=("ComicSansMS", 30))
-label.pack(pady=12, padx=10)
+#label = tk.Label(root, text="BioBlanks", font=("ComicSansMS", 30))
+#label.pack(pady=12, padx=10)
 title_frame = customtkinter.CTkFrame(master=root)  # Use popup_window as master
 title_frame.pack(pady=10, padx=10, fill="both", expand=True,)
 
