@@ -70,9 +70,6 @@ class gifplay:
         _thread.start_new_thread(self.infinite, ())
 
     def infinite(self):
-        """
-        Plays the GIF infinitely.
-        """
         i = 0
         while True:
             self.labelspace.configure(image=self.frame[i])
@@ -96,8 +93,6 @@ gif_path = "smallkirby.gif"
 # tkinter main loop for gif
 gif_player = gifplay(image_label, gif_path, 0.1)
 gif_player.play()
-
-
 
 
 # list of words for the game
@@ -132,9 +127,9 @@ w = 0
 l = 0
 
 stats = {
-    'wins':5, 
-    'losess':5, 
-    'streak':2, 
+    'wins':10, 
+    'losses':5, 
+    'streak':7, 
     }
 
 # function to check if the game is over
@@ -289,8 +284,6 @@ def win_popup():
     win_popup_window.mainloop()
 
 
-
-
 root.bind('<Return>', lambda event: guess_letter())
 
 # checks if letters match word
@@ -317,7 +310,7 @@ def guess_letter(event=None):
                 draw_hangman()
                 if check_lost():
                     messagebox.showinfo("Hangman", "You lose! The word was: " + word_to_guess)
-                    #stats['losses'] += 1
+                    stats['losses'] += 1
                     stats['streak'] = 0
                     reset_game()
         letter_entry.delete(0, tk.END)  # clears the input field
@@ -363,28 +356,25 @@ def show_definition():
 #make df for wins and losses
 df = pd.DataFrame(list(stats.items()), columns=['labels', 'value'])
 sdf = df[["value"]]
+tdf = df[["labels"]]
+#make dictionary of wins and losses into a string
+for key in stats.keys():
+    numbers = stats[key]
+    print(numbers)
+
 
 def show_stats():
     popup = tk.Tk()
     popup.wm_title("Game Summary")
-    popup.geometry("520x520+300+200")
 
-    label = tk.Label(popup, text="Game Summary", font='Arial')
-    label.pack(side="top", fill="x", pady=10)
+    fig = Figure() # create a figure object
+    ax = fig.add_subplot(111) # add an Axes to the figure
 
-    wins_loss = tk.Label(popup, text='')
-    wins_loss['text'] = '\n'.join('{} {}'.format(k, d) for k, d in stats.items()) 
-    wins_loss.pack(side="top", fill="x", pady=10)
+    ax.pie(numbers, radius=1, autopct='%0.2f%%', shadow=True,)
 
-    B1 = tk.Button(popup, text="Okay", command = popup.destroy)
-    B1.pack()
+    chart1 = FigureCanvasTkAgg(fig,popup)
+    chart1.get_tk_widget().pack()
 
-    figure = plt.Figure(figsize=(6, 5), dpi=100)
-    ax = figure.add_subplot(111)
-    chart_type = FigureCanvasTkAgg(figure, popup)
-    chart_type.get_tk_widget().pack()
-    plot = sdf.plot.pie( subplots=True, figsize=(11, 6))
-    
     popup.mainloop()
 
 # function to update attempts display

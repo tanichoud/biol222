@@ -11,3 +11,4 @@ Pillow
 customtkinter
 numpy
 matplotlib
+pandas
