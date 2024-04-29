@@ -106,21 +106,44 @@ words_lower = [
     "atp",
     "cytoplasm",
     "mitochondria",
-    "carbondioxide",
     "water",
-    "electrons",
-    "oxygen"
+    "oxygen",
+    "DNA",
+    "transcription",
+    "translation",
+    "physiology",
+    "muscle",
+    "myocardium"
+    "protein",
+    "transcriptase",
+    "hemoglobin",
+    "signal",
+    "substrate",
+    "bacteria",
+    "antibody",
+    "microbiome"
 ]
 
 words_defs = {
-    "glucose": "sugar produced during photosynthesis",
-    "atp": "energy",
-    "cytoplasm": "extracellular and intracelluar",
-    "mitochondria": "powerhouse of the cell",
-    "carbondioxide": "gas we breathe out",
-    "water":"wada",
-    "electrons": "negatively charged particles",
-    "oxygen": "gas we breathe in"
+    "glucose": "energetics",
+    "atp": "energetics",
+    "cytoplasm": "cell biology",
+    "mitochondria": "cell biology",
+    "water":"energetics",
+    "DNA": "molecular biology",
+    "transcription": "molecular biology",
+    "translation": "molecular biology",
+    "physiology": "anatomy",
+    "muscle": "anatomy",
+    "myocardium": "anatomy",
+    "protein": "molecular biology",
+    "transcriptase": "molecular biology",
+    "hemoglobin": "anatomy",
+    "signal": "molcular",
+    "substrate": "molecular",
+    "bacteria": "microbiology",
+    "antibody": "microbiology",
+    "microbiome": "microbiology"
 }
 
 
