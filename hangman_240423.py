@@ -411,6 +411,17 @@ for key in stats.keys():
 def show_stats():
     popup = tk.Tk()
     popup.wm_title("Game Summary")
+    popup.geometry("520x520+300+200")
+
+    label = tk.Label(popup, text="Game Summary", font='Arial')
+    label.pack(side="top", fill="x", pady=10)
+
+    wins_loss = tk.Label(popup, text='')
+    wins_loss['text'] = '\n'.join('{} {}'.format(k, d) for k, d in stats.items())
+    wins_loss.pack(side="top", fill="x", pady=10)
+
+    B1 = tk.Button(popup, text="Okay", command = popup.destroy)
+    B1.pack()
 
     fig = Figure() # create a figure object
     ax = fig.add_subplot(111) # add an Axes to the figure
