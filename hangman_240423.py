@@ -107,7 +107,7 @@ words_lower = [
     "translation",
     "physiology",
     "muscle",
-    "myocardium"
+    "myocardium",
     "protein",
     "transcriptase",
     "hemoglobin",
@@ -167,8 +167,8 @@ def check_lost():
     return attempts == 0
 
 # create a label to display guessed letters
-guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 16),bg="#252424")
-guessed_letters_display = tk.Label(root, text="", font=("ComicSansMS", 16))
+guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("Cambria", 16),bg="#252424")
+guessed_letters_display = tk.Label(root, text="", font=("Cambria", 16))
 
 # error pop up
 
@@ -195,7 +195,7 @@ def show_invalid_input_popup():
     message = "Please enter a single letter!"
 
     #  label to display the message
-    message_label = tk.Label(popup_window, text=message, font=("Comic Sans", 24))
+    message_label = tk.Label(popup_window, text=message, font=("Cambria", 24))
     message_label.pack()
     # close button
     close_button = customtkinter.CTkButton(popup_window, text="Close", fg_color="#d74894", command=popup_window.destroy)
@@ -239,7 +239,7 @@ def guessed_popup():
     message = "You already guessed this letter!"
 
     #  label to display the message
-    message_label = tk.Label(popup_window, text=message, font=("ComicSans", 20))
+    message_label = tk.Label(popup_window, text=message, font=("Cambria", 20))
     message_label.pack()
     # close button
     close_button = customtkinter.CTkButton(popup_window, text="Close", fg_color="#d74894", command=popup_window.destroy)
@@ -288,7 +288,7 @@ def win_popup():
     win_gif_player.play()
 
     #  label to display the message
-    message_label = tk.Label(win_popup_window, text=message, font=("ComicSans", 24))
+    message_label = tk.Label(win_popup_window, text=message, font=("Cambria", 24))
     message_label.pack()
     # close button
     close_button = customtkinter.CTkButton(win_popup_window, text="Close", fg_color="#d74894", command=win_popup_window.destroy)
@@ -335,7 +335,7 @@ def loss_popup():
     lose_gif_player.play()
 
     #  label to display the message
-    message_label = tk.Label(loss_popup_window, text=message, font=("ComicSans", 24))
+    message_label = tk.Label(loss_popup_window, text=message, font=("Cambria", 24))
     message_label.pack()
     # close button
     close_button = customtkinter.CTkButton(loss_popup_window, text="Close", fg_color="#d74894", command=win_popup_window.destroy)
@@ -436,14 +436,14 @@ def show_stats():
     popup.wm_title("Game Summary")
     popup.geometry("520x520+300+200")
 
-    label = tk.Label(popup, text="Game Summary", font='Arial')
+    label = tk.Label(popup, text="Game Summary", font='Cambria')
     label.pack(side="top", fill="x", pady=10)
 
-    wins_loss = tk.Label(popup, text='')
+    wins_loss = tk.Label(popup, text='', font='Cambria')
     wins_loss['text'] = '\n'.join('{} {}'.format(k, d) for k, d in stats.items())
     wins_loss.pack(side="top", fill="x", pady=10)
 
-    B1 = tk.Button(popup, text="Okay", command = popup.destroy)
+    B1 = tk.Button(popup, text="Okay", font="Cambria", command = popup.destroy)
     B1.pack()
 
     fig = Figure() # create a figure object
@@ -458,7 +458,7 @@ def show_stats():
 
 # function to update attempts display
 def update_attempts_display():
-    attempts_label.config(text=f"Attempts left: {attempts}", font=("ComicSansMS", 16),bg="#252424")
+    attempts_label.config(text=f"Attempts left: {attempts}", font=("Cambria", 16),bg="#252424")
 
 # function to update guessed letters display
 def update_guessed_letters_display():
@@ -480,13 +480,13 @@ def draw_hangman():
         canvas.create_line(150, 225, 175, 250, width=4, tags="hangman")  # Right leg
 
 # create GUI elements
-word_label = tk.Label(root, text="", font=("Comic Sans", 24))
-attempts_label = tk.Label(root, text="", font=("Comic Sans", 16))
-letter_entry = tk.Entry(root, width=5, font=("Comic Sans", 16),highlightbackground="pink", highlightcolor="pink")
+word_label = tk.Label(root, text="", font=("Cambria", 24))
+attempts_label = tk.Label(root, text="", font=("Cambria", 16))
+letter_entry = tk.Entry(root, width=5, font=("Cambria", 16),highlightbackground="pink", highlightcolor="pink")
 #guess_button = tk.Button(root, text="Guess", command=guess_letter, pady=12, padx=10)
 #reset_button = tk.Button(root, text="Reset", command=reset_game)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
-hint_display = tk.Label(root, text = "", font = ("Comic Sans", 24), wraplength=700,bg="#252424")
+hint_display = tk.Label(root, text = "", font = ("Cambria", 24), wraplength=700,bg="#252424")
 canvas = customtkinter.CTkCanvas(root, width=250, height=260)
 canvas.create_line(50, 250, 250, 250, width=4)# Base line
 canvas.create_line(200, 250, 200, 100, width=4)# Post
@@ -495,8 +495,8 @@ canvas. create_line(150, 100, 150, 120, width=4)# Beam
 canvas.config(bg="pink") 
 
 
-guess_button = customtkinter.CTkButton(root, text="GUESS", command=guess_letter, font=("ComicSansMS", 16),fg_color="#d74894")
-reset_button = customtkinter.CTkButton(root, text="RESET", command=reset_game, font=("ComicSansMS", 16),fg_color="#d74894")
+guess_button = customtkinter.CTkButton(root, text="GUESS", command=guess_letter, font=("Cambria", 16),fg_color="#d74894")
+reset_button = customtkinter.CTkButton(root, text="RESET", command=reset_game, font=("Cambria", 16),fg_color="#d74894")
 #hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
 #hint_button = tk.Button(root, text = "get hint", command = show_definition)
