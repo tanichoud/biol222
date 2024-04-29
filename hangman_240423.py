@@ -149,9 +149,9 @@ w = 0
 l = 0
 
 stats = {
-    'wins':10, 
-    'losses':5, 
-    'streak':7, 
+    'wins':0, 
+    'losses':0, 
+    'streak':0, 
     }
 
 # function to check if the game is over
