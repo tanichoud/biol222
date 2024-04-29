@@ -107,7 +107,7 @@ words_lower = [
     "translation",
     "physiology",
     "muscle",
-    "myocardium"
+    "myocardium",
     "protein",
     "transcriptase",
     "hemoglobin",
@@ -167,7 +167,7 @@ def check_lost():
     return attempts == 0
 
 # create a label to display guessed letters
-guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 16),bg="#252424")
+guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 16))#bg="#252424")
 guessed_letters_display = tk.Label(root, text="", font=("ComicSansMS", 16))
 
 # error pop up
@@ -338,7 +338,7 @@ def loss_popup():
     message_label = tk.Label(loss_popup_window, text=message, font=("ComicSans", 24))
     message_label.pack()
     # close button
-    close_button = customtkinter.CTkButton(loss_popup_window, text="Close", fg_color="#d74894", command=win_popup_window.destroy)
+    close_button = customtkinter.CTkButton(loss_popup_window, text="Close", fg_color="#d74894", command=loss_popup_window.destroy)
     close_button.pack(pady=10)
 
  
@@ -373,7 +373,7 @@ def guess_letter(event=None):
                 update_attempts_display()
                 draw_hangman()
                 if check_lost():
-                    messagebox.showinfo("Hangman", "You lose! The word was: " + word_to_guess)
+                    #messagebox.showinfo("Hangman", "You lose! The word was: " + word_to_guess)
                     stats['losses'] += 1
                     stats['streak'] = 0
                     #messagebox.showinfo("Hangman", "You lose! The word was: " + word_to_guess)
@@ -408,7 +408,7 @@ def update_word_display():
         else:
             display_word += "__"
         display_word += " "
-    word_label.config(text=display_word,bg="#252424")
+    word_label.config(text=display_word)#bg="#252424"
     if word_to_guess.lower() in words_defs:
         hint_display.config(text=words_defs[word_to_guess.lower()])
     else:
@@ -458,7 +458,7 @@ def show_stats():
 
 # function to update attempts display
 def update_attempts_display():
-    attempts_label.config(text=f"Attempts left: {attempts}", font=("ComicSansMS", 16),bg="#252424")
+    attempts_label.config(text=f"Attempts left: {attempts}", font=("ComicSansMS", 16))#bg="#252424"
 
 # function to update guessed letters display
 def update_guessed_letters_display():
@@ -486,7 +486,7 @@ letter_entry = tk.Entry(root, width=5, font=("Comic Sans", 16),highlightbackgrou
 #guess_button = tk.Button(root, text="Guess", command=guess_letter, pady=12, padx=10)
 #reset_button = tk.Button(root, text="Reset", command=reset_game)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
-hint_display = tk.Label(root, text = "", font = ("Comic Sans", 24), wraplength=700,bg="#252424")
+hint_display = tk.Label(root, text = "", font = ("Comic Sans", 24), wraplength=700)#bg="#252424"
 canvas = customtkinter.CTkCanvas(root, width=250, height=260)
 canvas.create_line(50, 250, 250, 250, width=4)# Base line
 canvas.create_line(200, 250, 200, 100, width=4)# Post
