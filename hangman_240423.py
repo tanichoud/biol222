@@ -166,12 +166,6 @@ def check_lost():
     return attempts == 0
 
 # create a label to display guessed letters
-<<<<<<< HEAD
-guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("Cambria", 16),bg="#252424")
-guessed_letters_display = tk.Label(root, text="", font=("Cambria", 16))
-guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 16))#bg="#252424")
-guessed_letters_display = tk.Label(root, text="", font=("ComicSansMS", 16))
-=======
 
 guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("Cambria", 16),bg="#252424",fg="#ffffff")
 guessed_letters_display = tk.Label(root, text="", font=("Cambria", 16))
@@ -179,7 +173,6 @@ guessed_letters_display = tk.Label(root, text="", font=("Cambria", 16))
 guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 16), bg="#252424", fg="#ffffff")
 guessed_letters_display = tk.Label(root, text="", font=("ComicSansMS", 16))
 
->>>>>>> 7697fcda3c05827ab66a60f56ddb0cdcfab517a7
 
 # error pop up
 
@@ -440,6 +433,15 @@ for key in stats.keys():
     numbers = stats[key]
     print(numbers)
 
+def create_pie_chart(data, labels):
+    fig, ax = plt.subplots()
+    ax.pie(data, labels=labels, autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    return fig
+
+# Example data and labels
+data = [35, 25, 20, 20]
+labels = ['A', 'B', 'C', 'D']
 
 def show_stats():
     popup = tk.Tk()
@@ -456,28 +458,21 @@ def show_stats():
     B1 = tk.Button(popup, text="Okay", font="Cambria", command = popup.destroy)
     B1.pack()
 
-    fig = Figure() # create a figure object
-    ax = fig.add_subplot(111) # add an Axes to the figure
-
-    ax.pie(numbers, radius=1, autopct='%0.2f%%', shadow=True,)
-
-    chart1 = FigureCanvasTkAgg(fig,popup)
-    chart1.get_tk_widget().pack()
+    fig = create_pie_chart(data, labels)
+    fig.pack()
+    canvas = FigureCanvasTkAgg(fig, master=popup)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
     popup.mainloop()
 
 # function to update attempts display
 def update_attempts_display():
-<<<<<<< HEAD
-    attempts_label.config(text=f"Attempts left: {attempts}", font=("Cambria", 16),bg="#252424")
-    attempts_label.config(text=f"Attempts left: {attempts}", font=("ComicSansMS", 16))#bg="#252424"
-=======
 
     attempts_label.config(text=f"Attempts left: {attempts}", font=("Cambria", 16),bg="#252424")
 
     attempts_label.config(text=f"Attempts left: {attempts}", font=("ComicSansMS", 16),bg="#252424",fg="#ffffff")
 
->>>>>>> 7697fcda3c05827ab66a60f56ddb0cdcfab517a7
 
 # function to update guessed letters display
 def update_guessed_letters_display():
@@ -505,15 +500,10 @@ letter_entry = tk.Entry(root, width=5, font=("Cambria", 16),highlightbackground=
 #guess_button = tk.Button(root, text="Guess", command=guess_letter, pady=12, padx=10)
 #reset_button = tk.Button(root, text="Reset", command=reset_game)
 #hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
-<<<<<<< HEAD
-hint_display = tk.Label(root, text = "", font = ("Cambria", 24), wraplength=700,bg="#252424")
-hint_display = tk.Label(root, text = "", font = ("Comic Sans", 24), wraplength=700)#bg="#252424"
-=======
 
 hint_display = tk.Label(root, text = "", font = ("Cambria", 24), wraplength=700,bg="#252424",fg="#ffffff")
 
 hint_display = tk.Label(root, text = "", font = ("Comic Sans", 24), wraplength=700,bg="#252424",fg="#ffffff")
->>>>>>> 7697fcda3c05827ab66a60f56ddb0cdcfab517a7
 canvas = customtkinter.CTkCanvas(root, width=250, height=260)
 canvas.create_line(50, 250, 250, 250, width=4)# Base line
 canvas.create_line(200, 250, 200, 100, width=4)# Post
