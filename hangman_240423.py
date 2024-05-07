@@ -318,7 +318,6 @@ def loss_popup():
     close_button = customtkinter.CTkButton(loss_popup_window, text="Close", fg_color="#d74894", command=win_popup_window.destroy)
     close_button.pack(pady=10)
 
- 
     # display pop up
     loss_popup_window.mainloop()
 
