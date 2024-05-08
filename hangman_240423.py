@@ -1,6 +1,18 @@
+
+'''
+BIOBLANKS. This program is an interactive Biology-based 
+Hangman game that allows the user to guess a biology-related 
+word from a category (molecular biology, physiology, etc.) 
+within 6 attempts. 
+
+Requires Python 3 to run. More information about other
+dependencies in the requirements.txt file.
+'''
+
+#import necessary libraries 
+
 import tkinter as tk
-from tkinter import messagebox
-from tkinter import BOTH, ROUND
+from tkinter import messagebox, BOTH, ROUND
 import random
 import customtkinter
 from tkinter import *
@@ -12,30 +24,25 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure 
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  
-NavigationToolbar2Tk) 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
 from tkinter import Label
 from PIL import Image, ImageSequence
 
 #setting the overall appearance + color scheme of interactive elements
+
 customtkinter.set_appearance_mode("dark")
-#customtkinter.set_default_color_theme("green")
+
 
 # creating the root window and size of window
 root = customtkinter.CTk()
-root.geometry("500x900")
+root.geometry("890x800")
 root.title("Biology Hangman")
-#root.iconbitmap('c:/guis/exe/codemy.ico')
 root.config(cursor="heart")
-
 
 #creating a frame inside the root window
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=0, padx=0, fill="both", expand=False)
 
-#play and pause button frames
-#button_frame = tk.Frame(root)
-#button_frame.pack(pady=10) 
 
 # retrieve gif from path and display gif on screen
 image_path = "smallkirby.gif"  
@@ -44,9 +51,11 @@ img = img.resize((300, 300))
 photo = ImageTk.PhotoImage(img)
 
 image_label = customtkinter.CTkLabel(master=frame, image=photo, text="")  
-image_label.image = photo  # Reference
+image_label.image = photo  # reference
 
 #using code snippet of a function to allow gif to play inside ctkinter
+# code snippet source: https://gist.github.com/gupta-shantanu/8781f72ff903c2cf3878
+
 class gifplay:
 
     def __init__(self, label, giffile, delay):
@@ -93,7 +102,6 @@ gif_path = "smallkirby.gif"
 gif_player = gifplay(image_label, gif_path, 0.1)
 gif_player.play()
 
-
 # list of words for the game
 words_lower = [
     "glucose",
@@ -101,6 +109,7 @@ words_lower = [
     "cytoplasm",
     "mitochondria",
     "water",
+    "oxygen",
     "DNA",
     "transcription",
     "translation",
@@ -117,6 +126,8 @@ words_lower = [
     "microbiome"
 ]
 
+# dictionary of words for the game that includes word + category
+
 words_defs = {
     "glucose": "energetics",
     "atp": "energetics",
@@ -132,8 +143,8 @@ words_defs = {
     "protein": "molecular biology",
     "transcriptase": "molecular biology",
     "hemoglobin": "anatomy",
-    "signal": "molcular",
-    "substrate": "molecular",
+    "signal": "molecular biology",
+    "substrate": "molecular biology",
     "bacteria": "microbiology",
     "antibody": "microbiology",
     "microbiome": "microbiology"
@@ -141,9 +152,10 @@ words_defs = {
 
 
 # initialize variables
+
 word_to_guess = random.choice(words_lower)
-guessed_letters = []  # Keeps track of guessed letters
-attempts = 6  # Number of allowed guesses before game ends
+guessed_letters = []  # keeps track of guessed letters
+attempts = 6  # number of allowed guesses before game ends
 w = 0
 l = 0
 
@@ -173,8 +185,7 @@ guessed_letters_display = tk.Label(root, text="", font=("Cambria", 16))
 guessed_letters_label = tk.Label(root, text="Guessed Letters: ", font=("ComicSansMS", 16), bg="#252424", fg="#ffffff")
 guessed_letters_display = tk.Label(root, text="", font=("ComicSansMS", 16))
 
-
-# error pop up
+# invalid error pop up
 
 def show_invalid_input_popup():
     # new toplevel window for the custom popup
@@ -183,7 +194,7 @@ def show_invalid_input_popup():
     popup_window.geometry("300x300")
     popup_window.resizable(False, False)
 
-    error_frame = customtkinter.CTkFrame(master=popup_window)  # Use popup_window as master
+    error_frame = customtkinter.CTkFrame(master=popup_window)  # use popup_window as master
     error_frame.pack(pady=10, padx=10, fill="both", expand=True)
 
     error_image_path = "madkirby.png.png"  
@@ -192,7 +203,7 @@ def show_invalid_input_popup():
     error_photo = ImageTk.PhotoImage(error_img)
 
     error_image_label = customtkinter.CTkLabel(master=error_frame, image=error_photo, text="")  
-    error_image_label.image = error_photo  # Reference
+    error_image_label.image = error_photo  # reference
     error_image_label.pack()
 
     # custom message
@@ -216,9 +227,7 @@ def show_invalid_input_popup():
     # display pop up
     popup_window.mainloop()
     
-# you already guessed this letter
-
-# error pop up
+# you already guessed this letter error popup
 
 def guessed_popup():
     # new toplevel window for the custom popup
@@ -227,7 +236,7 @@ def guessed_popup():
     popup_window.geometry("300x300")
     popup_window.resizable(False, False)
 
-    error_frame = customtkinter.CTkFrame(master=popup_window)  # Use popup_window as master
+    error_frame = customtkinter.CTkFrame(master=popup_window)  # use popup_window as master
     error_frame.pack(pady=10, padx=10, fill="both", expand=True)
 
     error_image_path = "madkirby.png.png"  
@@ -236,7 +245,7 @@ def guessed_popup():
     error_photo = ImageTk.PhotoImage(error_img)
 
     error_image_label = customtkinter.CTkLabel(master=error_frame, image=error_photo, text="")  
-    error_image_label.image = error_photo  # Reference
+    error_image_label.image = error_photo  # reference
     error_image_label.pack()
 
     # custom message
@@ -261,7 +270,7 @@ def guessed_popup():
     popup_window.mainloop()
     
 
-
+# win popup
 
 def win_popup():
     # new toplevel window for the custom popup
@@ -284,7 +293,7 @@ def win_popup():
     win_photo = ImageTk.PhotoImage(win_img)
 
     win_image_label = customtkinter.CTkLabel(master=win_frame, image=win_photo, text="")  
-    win_image_label.image = win_photo  # Reference
+    win_image_label.image = win_photo  # reference
     win_image_label.pack()
 
     # tkinter loop for you win gif
@@ -309,6 +318,8 @@ def win_popup():
     # display pop up
     win_popup_window.mainloop()
 
+
+#loss popup 
 
 def loss_popup():
     # new toplevel window for the custom popup
@@ -345,11 +356,12 @@ def loss_popup():
     close_button = customtkinter.CTkButton(loss_popup_window, text="Close", fg_color="#d74894", command=loss_popup_window.destroy)
     close_button.pack(pady=10)
 
+ 
     # display pop up
     loss_popup_window.mainloop()
 
 
-
+#binding 'return' to event object, and passing event through guess_letter function
 
 root.bind('<Return>', lambda event: guess_letter())
 
@@ -363,10 +375,9 @@ def guess_letter(event=None):
         else:
             guessed_letters.append(letter)
             update_guessed_letters_display()  # update guessed letters display
-            if letter in word_to_guess: #compare letter w word
+            if letter in word_to_guess: #compare letter to word
                 update_word_display()
                 if check_win():
-                    #messagebox.showinfo("Hangman", "Congratulations! You win!")
                     stats['wins'] += 1
                     stats['streak'] += 1
                     reset_game()
@@ -376,10 +387,8 @@ def guess_letter(event=None):
                 update_attempts_display()
                 draw_hangman()
                 if check_lost():
-                    #messagebox.showinfo("Hangman", "You lose! The word was: " + word_to_guess)
                     stats['losses'] += 1
                     stats['streak'] = 0
-                    #messagebox.showinfo("Hangman", "You lose! The word was: " + word_to_guess)
                     #tats['losses'] += 1
                     #stats['streak'] = 0
                     reset_game()
@@ -388,9 +397,8 @@ def guess_letter(event=None):
     else:
         show_invalid_input_popup()
 
+# reset game
 
-
-# Reset game
 def reset_game():
     global word_to_guess, guessed_letters, attempts, word_current  # modifies global variables
     word_to_guess = random.choice(words_lower)  # randomly selects from list and assigns to global variable
@@ -403,6 +411,7 @@ def reset_game():
     guessed_letters_display.config(text="")  # clear guessed letters display
 
 # function to update word display
+
 def update_word_display():
     display_word = ""
     for letter in word_to_guess:
@@ -425,23 +434,18 @@ def show_definition():
         hint_display.config(text="test")
 
 #make df for wins and losses
+
 df = pd.DataFrame(list(stats.items()), columns=['labels', 'value'])
 sdf = df[["value"]]
 tdf = df[["labels"]]
+
 #make dictionary of wins and losses into a string
+
 for key in stats.keys():
     numbers = stats[key]
     print(numbers)
 
-def create_pie_chart(data, labels):
-    fig, ax = plt.subplots()
-    ax.pie(data, labels=labels, autopct='%1.1f%%', startangle=90)
-    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    return fig
-
-# Example data and labels
-data = [35, 25, 20, 20]
-labels = ['A', 'B', 'C', 'D']
+#show stats screen
 
 def show_stats():
     popup = tk.Tk()
@@ -458,11 +462,13 @@ def show_stats():
     B1 = tk.Button(popup, text="Okay", font="Cambria", command = popup.destroy)
     B1.pack()
 
-    fig = create_pie_chart(data, labels)
-    fig.pack()
-    canvas = FigureCanvasTkAgg(fig, master=popup)
-    canvas.draw()
-    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+    fig = Figure() # create a figure object
+    ax = fig.add_subplot(111) # add an Axes to the figure
+
+    ax.pie(numbers, radius=1, autopct='%0.2f%%', shadow=True,)
+
+    chart1 = FigureCanvasTkAgg(fig,popup)
+    chart1.get_tk_widget().pack()
 
     popup.mainloop()
 
@@ -494,16 +500,17 @@ def draw_hangman():
         canvas.create_line(150, 225, 175, 250, width=4, tags="hangman")  # Right leg
 
 # create GUI elements
+
+#labels
 word_label = tk.Label(root, text="", font=("Cambria", 24))
 attempts_label = tk.Label(root, text="", font=("Cambria", 16))
-letter_entry = tk.Entry(root, width=5, font=("Cambria", 16),highlightbackground="pink", highlightcolor="pink")
-#guess_button = tk.Button(root, text="Guess", command=guess_letter, pady=12, padx=10)
-#reset_button = tk.Button(root, text="Reset", command=reset_game)
-#hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
-
 hint_display = tk.Label(root, text = "", font = ("Cambria", 24), wraplength=700,bg="#252424",fg="#ffffff")
-
 hint_display = tk.Label(root, text = "", font = ("Comic Sans", 24), wraplength=700,bg="#252424",fg="#ffffff")
+
+#entry
+letter_entry = tk.Entry(root, width=5, font=("Cambria", 16),highlightbackground="pink", highlightcolor="pink")
+
+#permanent canvas elements (hangman post and beam)
 canvas = customtkinter.CTkCanvas(root, width=250, height=260)
 canvas.create_line(50, 250, 250, 250, width=4)# Base line
 canvas.create_line(200, 250, 200, 100, width=4)# Post
@@ -511,40 +518,29 @@ canvas.create_line(100, 100, 200, 100, width=4)# Beam
 canvas. create_line(150, 100, 150, 120, width=4)# Beam
 canvas.config(bg="pink") 
 
-
+#buttons
 guess_button = customtkinter.CTkButton(root, text="GUESS", command=guess_letter, font=("Cambria", 16),fg_color="#d74894")
 reset_button = customtkinter.CTkButton(root, text="RESET", command=reset_game, font=("Cambria", 16),fg_color="#d74894")
-#hint_display = tk.Label(root, text = "", font = ("Arial", 24), wraplength=700)
-#hint_button = customtkinter.CTkButton(root, text="Hint", command=show_definition, font=("ComicSansMS", 12),fg_color="#d74894")
-#hint_button = tk.Button(root, text = "get hint", command = show_definition)
-#label = tk.Label(root, text="BioBlanks", font=("ComicSansMS", 30))
-#label.pack(pady=12, padx=10)
-title_frame = customtkinter.CTkFrame(master=root)  # Use popup_window as master
-title_frame.pack(pady=10, padx=10, fill="both", expand=True,)
-
-title_image_path = "bioblanks.png"  
-title_img = Image.open(title_image_path)
-title_img = title_img.resize((470, 140))  
-title_photo = ImageTk.PhotoImage(title_img)
-
-
-error_image_label = customtkinter.CTkLabel(master=title_frame, image=title_photo, text="")  
-error_image_label.image = title_photo  # Reference
-error_image_label.pack()
-#label = customtkinter.CTkLabel(root, text="BioBlanks", font=("ComicSansMS", 30))
-#label.pack(pady=12, padx=10)
-#play_button = customtkinter.CTkButton(button_frame, text="▷",width=2, command=play,font=("ComicSansMS", 12),fg_color="#d74894")
-#play_button.pack(side="left")
-#stop_button = customtkinter.CTkButton(button_frame, text="||", width=2,command=stop,font=("ComicSansMS", 12),fg_color="#d74894")
-#stop_button.pack(side="left")
 stats_button = customtkinter.CTkButton(root, text="Game stats", command=show_stats,fg_color="#5e1147")
 
+#frame for title plus image paths and labels
+title_frame = customtkinter.CTkFrame(master=root)  # use popup_window as master
+title_frame.pack(pady=10, padx=10, fill="both", expand=True)
+#title_frame.resizable(False, False)
+title_image_path = "bioblanks.png"  
+title_img = Image.open(title_image_path)
+title_img = title_img.resize((200, 70))  
+title_photo = ImageTk.PhotoImage(title_img)
+
+# error image labels
+error_image_label = customtkinter.CTkLabel(master=title_frame, image=title_photo, text="",width=200, height=70)  
+error_image_label.image = title_photo  # reference
+error_image_label.pack()
 
 # pack GUI elements
 
-#image_label.pack()
+stats_button.pack()
 hint_display.pack()
-#hint_button.pack()
 canvas.pack()
 word_label.pack()
 attempts_label.pack()
@@ -553,8 +549,9 @@ guessed_letters_label.pack()
 guessed_letters_display.pack()
 guess_button.pack()
 reset_button.pack(pady=12, padx=10)
-stats_button.pack(pady=12, padx=10)
 image_label.pack()
+
+
 # initial display
 update_word_display()
 update_attempts_display()
