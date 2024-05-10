@@ -151,6 +151,8 @@ words_defs = {
     "microbiome": "Microbial Ecology"
 }
 
+#words + definitions
+
 words_definitions = {
     "glucose": "primary source of energy",
     "atp": "energy currency of the cell",
