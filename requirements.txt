@@ -1,11 +1,19 @@
-#first go to terminal/powercell command line program and change directory
-#to where this file is saved (ex: /Users/tanishachoudhury/Downloads/tinartssgithub/biol222)
-#right click on the file to get info and it should have the path
-#once you're in the directory, copy and paste:
-#pip install -r requirements.txt 
-#should install all dependencies needed to run the program
-#make sure you have python 3 downloaded
-#if python 2 downloaded: pip 3 install -r requirements.txt 
+
+
+
+''' This program requires the following dependencies to be installed and imported
+in a Python 3 environment.
+
+To run, go to Terminal/Powershell command line program and change directory
+to where this file is saved (ex: /Users/tanishachoudhury/Downloads/tinartssgithub/biol222).
+To retrieve the file path, right click on the file to get info. 
+Once in the file directory in command line, copy and paste the following:
+pip install -r requirements.txt 
+This should install all dependencies needed to run the program.
+
+Other notes: 
+Ensure Python 3 is downloaded.
+If Python 2,use: pip 3 install -r requirements.txt '''
 
 Pillow
 customtkinter
